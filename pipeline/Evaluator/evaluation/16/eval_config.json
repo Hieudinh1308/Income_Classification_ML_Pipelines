@@ -1,0 +1,62 @@
+{
+  "evalConfig": {
+    "modelSpecs": [
+      {
+        "name": "candidate",
+        "signatureName": "serving_default",
+        "labelKey": "label"
+      },
+      {
+        "name": "baseline",
+        "signatureName": "serving_default",
+        "labelKey": "label",
+        "isBaseline": true
+      }
+    ],
+    "slicingSpecs": [
+      {},
+      {
+        "featureKeys": [
+          "sex"
+        ]
+      },
+      {
+        "featureKeys": [
+          "race"
+        ]
+      }
+    ],
+    "metricsSpecs": [
+      {
+        "metrics": [
+          {
+            "className": "ExampleCount"
+          },
+          {
+            "className": "BinaryAccuracy",
+            "threshold": {
+              "valueThreshold": {
+                "lowerBound": 0.5
+              },
+              "changeThreshold": {
+                "absolute": -1e-10,
+                "direction": "HIGHER_IS_BETTER"
+              }
+            }
+          }
+        ],
+        "modelNames": [
+          "candidate",
+          "baseline"
+        ]
+      }
+    ]
+  },
+  "version": "0.45.0",
+  "dataLocation": "<user provided PCollection>",
+  "fileFormat": "<unknown>",
+  "modelLocations": {
+    "candidate": "./pipeline/Trainer/model/15/Format-Serving",
+    "baseline": "./pipeline/Trainer/model/11/Format-Serving"
+  }
+}

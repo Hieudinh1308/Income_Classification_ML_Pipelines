@@ -2,15 +2,31 @@
 import tensorflow as tf
 import tensorflow_transform as tft
 
-# import constants from cells above
-import constants_file as census_constants
 
-# Unpack the contents of the constants module
-_NUMERIC_FEATURE_KEYS = census_constants.NUMERIC_FEATURE_KEYS
-_VOCAB_FEATURE_DICT = census_constants.VOCAB_FEATURE_DICT
-_BUCKET_FEATURE_DICT = census_constants.BUCKET_FEATURE_DICT
-_NUM_OOV_BUCKETS = census_constants.NUM_OOV_BUCKETS
-_LABEL_KEY = census_constants.LABEL_KEY
+
+
+
+# Features with string data types that will be converted to indices
+_VOCAB_FEATURE_DICT = {
+    'education': 16, 'marital-status': 7, 'occupation': 15, 'race': 5,
+    'relationship': 6, 'workclass': 9, 'sex': 2, 'native-country': 42
+}
+
+# Numerical features that are marked as continuous
+_NUMERIC_FEATURE_KEYS = ['fnlwgt', 'education-num', 'capital-gain', 'capital-loss', 'hours-per-week']
+
+# Feature that can be grouped into buckets
+_BUCKET_FEATURE_DICT = {'age': 4}
+
+# Number of out-of-vocabulary buckets
+_NUM_OOV_BUCKETS = 5
+
+# Feature that the model will predict
+_LABEL_KEY = 'label'
+
+
+
+ 
 
 # Define the transformations
 def preprocessing_fn(inputs):

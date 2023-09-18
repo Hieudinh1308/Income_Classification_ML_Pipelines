@@ -10,13 +10,6 @@ eval_config = tfma.EvalConfig(
         ],
     metrics_specs=[
         tfma.MetricsSpec(
-            # The metrics added here are in addition to those saved with the
-            # model (assuming either a keras model or EvalSavedModel is used).
-            # Any metrics added into the saved model (for example using
-            # model.compile(..., metrics=[...]), etc) will be computed
-            # automatically.
-            # To add validation thresholds for metrics saved with the model,
-            # add them keyed by metric name to the thresholds map.
             metrics=[
                 tfma.MetricConfig(class_name='ExampleCount'),
                 tfma.MetricConfig(class_name='BinaryAccuracy',

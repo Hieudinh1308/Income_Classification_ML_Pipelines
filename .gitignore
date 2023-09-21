@@ -1,3 +1,5 @@
-/.ipynb_checkpoints/
-/serving_model_local/
-/pipelines_local/
+.ipynb_checkpoints
+
+/serving_model_local
+
+/pipelines_local

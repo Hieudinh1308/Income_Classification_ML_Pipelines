@@ -1,0 +1,7 @@
+uvicorn
+tensorflow 
+tensorflow-data-validation 
+tensorflow-transform 
+fastapi
+pydantic 
+tfx 

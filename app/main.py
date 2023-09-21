@@ -6,29 +6,30 @@ import tensorflow as tf
 app = FastAPI()
 
 
-model_path = "../serving-dir/1694455820/"
+model_path = "../serving_dir/1694455820/"
 loaded_model = tf.keras.models.load_model(model_path)
 
 
 ### api 
 
-#  {
-#   "age" : 31 ,
-#   "capital_gain" : 5178,
-#   "capital_loss" : 0,
-#   "education" : "Master",
-#   "education_num" : 14 ,
-#   "fnlwgt" : 159449 ,
-#   "hours_per_week" : 40,
-#   "marital_status" : "Married-civ-spouse",
-#   "native_country" :  "United-States",
-#   "occupation" : "Exec-managerial",
-#   "race" : "White",
-#   "relationship" : "husband",
-#   "sex" : "Male",
-#   "workclass" : "Private"
+example_test= \
+{
+  "age" : 31 ,
+  "capital_gain" : 5178,
+  "capital_loss" : 0,
+  "education" : "Master",
+  "education_num" : 14 ,
+  "fnlwgt" : 159449 ,
+  "hours_per_week" : 40,
+  "marital_status" : "Married-civ-spouse",
+  "native_country" :  "United-States",
+  "occupation" : "Exec-managerial",
+  "race" : "White",
+  "relationship" : "husband",
+  "sex" : "Male",
+  "workclass" : "Private"
  
-#  } 
+ } 
 
 
 class item(BaseModel):
@@ -74,11 +75,37 @@ async def create(items : item):
     transformed_examples = loaded_model.tft_layer(example)
     # inference function
     y_pred = loaded_model(transformed_examples)
-    y_pred = y_pred.numpy()
+    y_pred = y_pred.numpy()[0]
+    
     if y_pred <= 0.5 :
         return f"Label 0 : {y_pred}"
     else :
-        return f"Label 1 :{y_pred}"
+        return f"Label 1 : {y_pred}"
    
 
 #run server uvicorn main:app --reload
+
+# docker-compose build
+# docker-compose up -d
+
+# curl -X 'POST' \
+#   'http://localhost:8000/' \
+#   -H 'accept: application/json' \
+#   -H 'Content-Type: application/json' \
+#   -d '{
+#   "age" : 31 ,
+#   "capital_gain" : 5178,
+#   "capital_loss" : 0,
+#   "education" : "Master",
+#   "education_num" : 14 ,
+#   "fnlwgt" : 159449 ,
+#   "hours_per_week" : 40,
+#   "marital_status" : "Married-civ-spouse",
+#   "native_country" :  "United-States",
+#   "occupation" : "Exec-managerial",
+#   "race" : "White",
+#   "relationship" : "husband",
+#   "sex" : "Male",
+#   "workclass" : "Private"
+ 
+#  } '

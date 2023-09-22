@@ -80,7 +80,9 @@ In Cloud Shell, execute the following command to start a Cloud Build using cloud
 ```
 gcloud builds submit --region=us-central1 --config cloudbuild.yaml
 ```
-Creating a GKE cluster
+
+
+### Creating a GKE cluster
 ```
 gcloud config set compute/zone us-central1-f
 PROJECT_ID=$(gcloud config get-value project)
@@ -96,7 +98,9 @@ gcloud beta container clusters create $CLUSTER_NAME \
   --max-nodes=3 \
   --num-nodes=1 
   ```
-create deployment.yaml
+
+
+### Create deployment.yaml
 
 ```
 apiVersion: apps/v1
@@ -104,7 +108,7 @@ kind: Deployment
 metadata:
   name: census-api-deployment
 spec:
-  replicas: 1 # Specify the desired number of replicas
+  replicas: 1  
   selector:
     matchLabels:
       app: census-api
@@ -115,11 +119,16 @@ spec:
     spec:
       containers:
         - name: census-api-container
-          image: us-central1-docker.pkg.dev/qwiklabs-gcp-03-fa93b9b8bec0/hieudinh-census-repo/census_api:v1
+          image: us-central1-docker.pkg.dev/${PROJECT_ID}/hieudinh-census-repo/census_api:v1
           ports:
             - containerPort: 8000
 ```
-service 
+Run command
+```
+kubectl apply -f deployment.yaml
+```
+
+### Create Service 
 
 ```
 apiVersion: v1
@@ -131,7 +140,13 @@ spec:
     app: census-api
   ports:
     - protocol: TCP
-      port: 8000 # The external port you want to use
-      targetPort: 8000 # The container port your application is listening on
+      port: 8000 # The external port 
+      targetPort: 8000 # The container port
   type: LoadBalancer
+```
+Run commands
+
+```
+kubectl apply -f service.yaml
+
 ```

@@ -1,0 +1,19 @@
+steps:
+  # Pull the Docker image from Docker Hub
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'pull'
+      - 'hieudinhpro/census_api:v1'
+
+  # Tag the pulled image for Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'tag'
+      - 'hieudinhpro/census_api:v1'
+      - 'us-central1-docker.pkg.dev/${PROJECT_ID}/hieudinh-census-repo/census_api:v1'
+
+  # Push the tagged image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'us-central1-docker.pkg.dev/${PROJECT_ID}/hieudinh-census-repo/census_api:v1'

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: census-api-deployment
+spec:
+  replicas: 1  
+  selector:
+    matchLabels:
+      app: census-api
+  template:
+    metadata:
+      labels:
+        app: census-api
+    spec:
+      containers:
+        - name: census-api-container
+          image: us-central1-docker.pkg.dev/${PROJECT_ID}/hieudinh-census-repo/census_api:v1
+          ports:
+            - containerPort: 8000
+            

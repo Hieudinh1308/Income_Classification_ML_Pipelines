@@ -7,8 +7,8 @@
 
 
 ## Pipeline on Vertex AI
-![f]("https://github.com/Hieudinhpro/Census_ML_Pipelines/blob/main/images/f.png")  
-![e]("https://github.com/Hieudinhpro/Census_ML_Pipelines/blob/main/images/e.png")  
+![f]("https://github.com/Hieudinhpro/Census_ML_Pipelines/blob/main/images/e.png?raw=true")  
+![e]("https://github.com/Hieudinhpro/Census_ML_Pipelines/blob/main/images/e.png?raw=true")  
 
 ## Run model inferences local
 

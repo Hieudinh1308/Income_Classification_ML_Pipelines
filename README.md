@@ -40,3 +40,98 @@ curl -X 'POST' \
 '
 ```
 output will be like  "Label 1 : [0.8479395]"
+
+# Deploy on Google Cloud Kubernetes
+
+Create a new Docker repository named hieudinh-census-repo  in the location us-central1 with the description "Docker repository"
+
+```
+gcloud artifacts repositories create hieudinh-census-repo --repository-format=docker \
+    --location=us-central1 --description="Docker repository"
+```
+
+Cloudbuild.yaml
+
+ 
+
+```                  
+steps:
+  # Pull the Docker image from Docker Hub
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'pull'
+      - 'hieudinhpro/census_api:v1'
+
+  # Tag the pulled image for Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'tag'
+      - 'hieudinhpro/census_api:v1'
+      - 'us-central1-docker.pkg.dev/${PROJECT_ID}/hieudinh-census-repo/census_api:v1'
+
+  # Push the tagged image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'us-central1-docker.pkg.dev/${PROJECT_ID}/hieudinh-census-repo/census_api:v1'
+```
+In Cloud Shell, execute the following command to start a Cloud Build using cloudbuild.yaml as the build configuration file:
+
+```
+gcloud builds submit --region=us-central1 --config cloudbuild.yaml
+```
+Creating a GKE cluster
+```
+gcloud config set compute/zone us-central1-f
+PROJECT_ID=$(gcloud config get-value project)
+CLUSTER_NAME=cluster-1
+
+```
+```
+gcloud beta container clusters create $CLUSTER_NAME \
+  --cluster-version=latest \
+  --machine-type=e2-standard-4 \
+  --enable-autoscaling \
+  --min-nodes=1 \
+  --max-nodes=3 \
+  --num-nodes=1 
+  ```
+create deployment.yaml
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: census-api-deployment
+spec:
+  replicas: 1 # Specify the desired number of replicas
+  selector:
+    matchLabels:
+      app: census-api
+  template:
+    metadata:
+      labels:
+        app: census-api
+    spec:
+      containers:
+        - name: census-api-container
+          image: us-central1-docker.pkg.dev/qwiklabs-gcp-03-fa93b9b8bec0/hieudinh-census-repo/census_api:v1
+          ports:
+            - containerPort: 8000
+```
+service 
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: census-api-service
+spec:
+  selector:
+    app: census-api
+  ports:
+    - protocol: TCP
+      port: 8000 # The external port you want to use
+      targetPort: 8000 # The container port your application is listening on
+  type: LoadBalancer
+```

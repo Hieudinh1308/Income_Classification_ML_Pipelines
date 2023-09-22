@@ -9,7 +9,7 @@
 ## Pipeline on Vertex AI
 
 
-![GitHub Logo](images/e.png)
+![GitHub Logo](images/ee.png)
 
 
 

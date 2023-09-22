@@ -1,14 +1,16 @@
 #Machine learning classification Pipelines 
 
-### The dataset 
+## The dataset 
 
 
 [Census Income dataset](https://archive.ics.uci.edu/ml/datasets/Adult)  
 
 
-### Pipeline on Vertex AI
-![Link Name]("#")  
-![Link Name]("#")  
+## Pipeline on Vertex AI
+![Link Name]("https://github.com/Hieudinhpro/Census_ML_Pipelines/blob/main/images/f.png")  
+![Link Name]("https://github.com/Hieudinhpro/Census_ML_Pipelines/blob/main/images/e.png")  
+
+## Run model inferences local
 
 Begin by pulling the model server image from my Docker hub
 

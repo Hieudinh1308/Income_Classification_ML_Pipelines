@@ -64,32 +64,7 @@ Create a new Docker repository named hieudinh-census-repo  in the location us-ce
 gcloud artifacts repositories create hieudinh-census-repo --repository-format=docker \
     --location=us-central1 --description="Docker repository"
 ```
-
-Cloudbuild.yaml
-
  
-
-```                  
-steps:
-  # Pull the Docker image from Docker Hub
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      - 'pull'
-      - 'hieudinhpro/census_api:v1'
-
-  # Tag the pulled image for Artifact Registry
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      - 'tag'
-      - 'hieudinhpro/census_api:v1'
-      - 'us-central1-docker.pkg.dev/${PROJECT_ID}/hieudinh-census-repo/census_api:v1'
-
-  # Push the tagged image to Artifact Registry
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      - 'push'
-      - 'us-central1-docker.pkg.dev/${PROJECT_ID}/hieudinh-census-repo/census_api:v1'
-```
 In Cloud Shell, execute the following command to start a Cloud Build using cloudbuild.yaml as the build configuration file:
 
 ```
@@ -97,7 +72,7 @@ gcloud builds submit --region=us-central1 --config cloudbuild.yaml
 ```
 
 
-### Creating a GKE cluster
+Creating a GKE cluster
 ```
 gcloud config set compute/zone us-central1-f
 PROJECT_ID=$(gcloud config get-value project)
@@ -115,51 +90,14 @@ gcloud beta container clusters create $CLUSTER_NAME \
   ```
 
 
-### Create deployment.yaml
-
-```
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: census-api-deployment
-spec:
-  replicas: 1  
-  selector:
-    matchLabels:
-      app: census-api
-  template:
-    metadata:
-      labels:
-        app: census-api
-    spec:
-      containers:
-        - name: census-api-container
-          image: us-central1-docker.pkg.dev/${PROJECT_ID}/hieudinh-census-repo/census_api:v1
-          ports:
-            - containerPort: 8000
-```
-Run command
+ 
+Run command to create deployment
 ```
 kubectl apply -f deployment.yaml
 ```
 
-### Create Service 
-
-```
-apiVersion: v1
-kind: Service
-metadata:
-  name: census-api-service
-spec:
-  selector:
-    app: census-api
-  ports:
-    - protocol: TCP
-      port: 8000 # The external port 
-      targetPort: 8000 # The container port
-  type: LoadBalancer
-```
-Run commands
+ 
+Run command to Create Service predict 
 
 ```
 kubectl apply -f service.yaml

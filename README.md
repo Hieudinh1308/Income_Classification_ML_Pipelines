@@ -13,9 +13,9 @@
 
 
 
-## Run model inferences local
+## How to use the model
 
-Begin by pulling the model server image from my Docker hub
+Open your terminal and run these commands
 
 ```
 docker pull hieudinhpro/census_api:v1

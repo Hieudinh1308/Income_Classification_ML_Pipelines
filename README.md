@@ -27,7 +27,7 @@ Run the server
 docker run  -d -p  8000:8000 hieudinhpro/census_api:v1 
 
 ```
-Wating 30s for load your app.
+Wating 30s for loaded your app.
 Let's do inference a example , open a new command line window or tab and run the following command:
 
 ```

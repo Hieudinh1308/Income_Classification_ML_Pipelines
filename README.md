@@ -91,13 +91,13 @@ gcloud beta container clusters create $CLUSTER_NAME \
 
 
  
-Run command to create deployment
+Run this command to create a deployment
 ```
 kubectl apply -f deployment.yaml
 ```
 
  
-Run command to Create Service prediction 
+Run this command to Create a Service prediction 
 
 ```
 kubectl apply -f service.yaml

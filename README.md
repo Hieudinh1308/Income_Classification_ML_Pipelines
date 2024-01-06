@@ -97,7 +97,7 @@ kubectl apply -f deployment.yaml
 ```
 
  
-Run command to Create Service predict 
+Run command to Create Service prediction 
 
 ```
 kubectl apply -f service.yaml

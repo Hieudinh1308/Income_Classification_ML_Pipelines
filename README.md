@@ -15,7 +15,7 @@
 
 ## How to use the model
 
-Open your terminal and run these commands
+Open your terminal and run this command
 
 ```
 docker pull hieudinhpro/census_api:v1
